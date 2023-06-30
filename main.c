@@ -5,8 +5,7 @@ void IngreseMascota(int numMascotas[10], char mascota[10][50], char tipo[10][50]
 void serviciosDisponibles(float precioservicio[4], char *servicios[], char *descripcion[]);
 void FacturacionMascotas(float precioservicio[4], char *servicios[], char *descripcion[], int numMascotas[10], char mascota[10][50], char tipo[10][50], int edad[10], char nombreDueno[10][50], int id);
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]){
     int numMascotas[10] = {0};
     float precioservicio[4] = {12, 6, 5, 1.20};
     char opcion;
@@ -16,8 +15,7 @@ int main(int argc, char const *argv[])
     char nombreDueno[10][50];
     char *servicios[] = {"Corte de pelo", "Chequeo medico", "Collar", "Comida Mascotas"};
     char *descripcion[] = {"Corte de Maquina", "Revision medica", "Collar artesanal", "Comida nutricional"};
-    do
-    {
+    do{
         printf("--------------MENU-------------\n");
         printf("a. Ingreso de Mascota\n");
         printf("b. Servicios\n");
@@ -27,8 +25,7 @@ int main(int argc, char const *argv[])
 
         printf("Seleccione una opcion:\n");
         scanf(" %c", &opcion);
-        switch (opcion)
-        {
+        switch (opcion){
         case 'a':
             printf("Ingrese el ID de la mascota: ");
             int id;
@@ -68,13 +65,11 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-void IngreseMascota(int numMascotas[10], char mascota[10][50], char tipo[10][50], int edad[10], char nombreDueno[10][50], int id)
-{
+void IngreseMascota(int numMascotas[10], char mascota[10][50], char tipo[10][50], int edad[10], char nombreDueno[10][50], int id){
     if (id >= 1 && id <= 10)
     {
         id--; 
-        if (numMascotas[id] == 0)
-        {
+        if (numMascotas[id] == 0){
             printf("Ingrese el nombre de su mascota: ");
             scanf("%s", mascota[id]);
             printf("Ingrese el tipo de mascota: ");
@@ -86,19 +81,16 @@ void IngreseMascota(int numMascotas[10], char mascota[10][50], char tipo[10][50]
             numMascotas[id] = 1;
             printf("Mascota ingresada correctamente.\n");
         }
-        else
-        {
+        else{
             printf("Ya existe una mascota con ese ID.\n");
         }
     }
-    else
-    {
+    else{
         printf("ID de mascota no valido.\n");
     }
 }
 
-void serviciosDisponibles(float precioservicio[4], char *servicios[], char *descripcion[])
-{
+void serviciosDisponibles(float precioservicio[4], char *servicios[], char *descripcion[]){
     printf("------------------------------- SERVICIOS -------------------------------\n");
     printf("|   ID   |      Nombre      |       Descripcion       |   Precio   |\n");
     printf("-------------------------------------------------------------------------------------------\n");
@@ -109,8 +101,7 @@ void serviciosDisponibles(float precioservicio[4], char *servicios[], char *desc
     printf("-------------------------------------------------------------------------------------------\n");
 }
 
-void FacturacionMascotas(float precioservicio[4], char *servicios[], char *descripcion[], int numMascotas[10], char mascota[10][50], char tipo[10][50], int edad[10], char nombreDueno[10][50], int id)
-{
+void FacturacionMascotas(float precioservicio[4], char *servicios[], char *descripcion[], int numMascotas[10], char mascota[10][50], char tipo[10][50], int edad[10], char nombreDueno[10][50], int id){
     printf("+---------------------------------------------------+\n");
     printf("---------------------Factura-------------------------\n");
 
@@ -131,25 +122,50 @@ void FacturacionMascotas(float precioservicio[4], char *servicios[], char *descr
     printf("+---------------------------------------------------+\n");
     printf("+--------------------Servicios----------------------+\n");
 
-    int numServicios = 0; 
+    int numServicios = 0;
     char opcion;
     int servicio;
     float total = 0;
+    int serviciosSeleccionados[4];
+    float serviciosPrecio[4];
 
-    do{
+    do
+    {
         serviciosDisponibles(precioservicio, servicios, descripcion);
+
         printf("Ingrese el ID del servicio a realizar: ");
         scanf(" %d", &servicio);
 
-        if (servicio >= 1 && servicio <= 4){
+        if (servicio >= 1 && servicio <= 4)
+        {
             total += precioservicio[servicio - 1];
+            serviciosSeleccionados[numServicios] = servicio;
+            serviciosPrecio[numServicios] = precioservicio[servicio - 1];
+
+            numServicios++;
         }
-        else{
+        else
+        {
             printf("ID de servicio no valido.\n");
         }
+
         printf("¿Desea anadir otro servicio? (s/n): ");
         scanf(" %c", &opcion);
     } while (opcion == 's' || opcion == 'S');
+    
+    printf("+---------------------------------------------------+\n");
+    printf("Servicios seleccionados:\n");
+
+    for (int i = 0; i < numServicios; i++)
+    {
+        printf("Servicio %d\n", i + 1);
+        printf("Nombre: %s\n", servicios[serviciosSeleccionados[i] - 1]);
+        printf("Descripcion: %s\n", descripcion[serviciosSeleccionados[i] - 1]);
+        printf("Precio: %.2f\n", serviciosPrecio[i]);
+        printf("-----------------------------\n");
+        
+    }
     printf("+---------------------------------------------------+\n");
     printf("Total a pagar: %.2f\n", total);
+    printf("+---------------------------------------------------+\n");
 }
